@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import BlogCard from "../components/BlogCard.jsx";
 import { useNavigate } from "react-router-dom";
-import CreateBlogPage from "./CreateBlogPage.jsx";  // Correct import path
+import CreateBlogPage from "./CreateBlogPage.jsx";  
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -11,9 +11,7 @@ const HomePage = () => {
   const [showCreateBlog, setShowCreateBlog] = useState(false);
   const navigate = useNavigate();
 
-  // Function to add a new blog to the list
   const addBlog = (newBlog) => {
-    console.log(newBlog);  // Log to check if the blog data is passed correctly
     setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
   };
 
@@ -52,9 +50,19 @@ const HomePage = () => {
     }
   };
 
+  // Effect hook to fetch blogs on component mount
   useEffect(() => {
     fetchBlogs();
   }, []);
+
+  const handleCreateBlogClick = () => {
+    setShowCreateBlog(true);
+  };
+
+  const handleCreateBlogClose = () => {
+    setShowCreateBlog(false);
+    fetchBlogs(); // Optionally refresh the blogs after creating one
+  };
 
   if (loading) {
     return <div className="text-center text-gray-700 mt-10">Loading...</div>;
@@ -62,16 +70,12 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-6">
-      {/* Header Section with Image */}
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6 border border-gray-300 text-center">
         <div className="flex flex-col items-center">
           <header>
-            <h1 className="text-3xl font-bold text-gray-800">
-              WELCOME TO THE PLACE OF CURIOUS MINDS
-            </h1>
-            <p className="text-lg text-gray-600 mt-2">LET'S ADVENTURE TOGETHER</p>
+            <h1 className="text-3xl font-bold text-gray-800">Welcome to the Place of Curious Minds</h1>
+            <p className="text-lg text-gray-600 mt-2">Let's adventure together</p>
           </header>
-          {/* Image Section */}
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRurxTt1UbVDQfOEUXR7b7g2rq87vNA59TFFQ&s"
             alt="Adventure"
@@ -82,7 +86,7 @@ const HomePage = () => {
           </p>
           {isAuthenticated && (
             <button
-              onClick={() => setShowCreateBlog(true)} 
+              onClick={handleCreateBlogClick}
               className="mt-6 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
               Create a New Blog
@@ -91,10 +95,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Create Blog Page (Only Visible When Show Create Blog is True) */}
-      {showCreateBlog && <CreateBlogPage addBlog={addBlog} />}
+      {showCreateBlog && <CreateBlogPage addBlog={addBlog} onClose={handleCreateBlogClose} />}
 
-      {/* Blog Cards Section */}
       <div className="w-full max-w-4xl mt-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {error && (
@@ -113,7 +115,7 @@ const HomePage = () => {
             blogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)
           ) : (
             <div className="text-center">
-              <p className="text-gray-500">No blogs available!! Create one!!</p>
+              <p className="text-gray-500">No blogs available! Create one!!</p>
               <button
                 onClick={fetchBlogs}
                 className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"

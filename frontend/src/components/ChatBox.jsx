@@ -8,8 +8,8 @@ const ChatBox = ({ currentUser, targetUser }) => {
 
   useEffect(() => {
     socketRef.current = io(import.meta.env.VITE_REACT_APP_SOCKET_URL, {
-      transports: ["websocket"], // Force WebSocket transport
-      query: { token: localStorage.getItem("token") }, // Send auth token if needed
+      transports: ["websocket"], 
+      query: { token: localStorage.getItem("token") }, 
     });
   
     socketRef.current.on("connect", () => {

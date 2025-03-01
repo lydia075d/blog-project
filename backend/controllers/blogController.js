@@ -38,7 +38,6 @@ const getBlogById = async (req, res) => {
   }
 };
 
-// Get comments for a blog
 const getCommentsForBlog = async (req, res) => {
   try {
     const comments = await Comment.find({ blog: req.params.id }).populate("user", "username");
@@ -51,7 +50,6 @@ const getCommentsForBlog = async (req, res) => {
   }
 };
 
-// Add comment to a blog
 const addCommentToBlog = async (req, res) => {
   try {
     const { content } = req.body;
@@ -70,21 +68,26 @@ const addCommentToBlog = async (req, res) => {
   }
 };
 
-// Like a blog
 const likeBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
     if (!blog) return res.status(404).json({ message: "Blog not found" });
 
-    blog.likes += 1;
+    const userId = req.user.id;
+
+    if (blog.likes.includes(userId)) {
+      blog.likes = blog.likes.filter(like => like !== userId);
+    } else {
+      blog.likes.push(userId);
+    }
+
     await blog.save();
-    res.status(200).json({ message: "Blog liked", likes: blog.likes });
+    res.status(200).json({ message: "Blog liked/unliked", likes: blog.likes });
   } catch (error) {
     res.status(500).json({ message: "Failed to like blog", error: error.message });
   }
 };
 
-// Delete a blog
 const deleteBlog = async (req, res) => {
   try {
     const blog = await Blog.findById(req.params.id);
@@ -96,7 +99,6 @@ const deleteBlog = async (req, res) => {
       return res.status(403).json({ message: "You are not authorized to delete this blog" });
     }
 
-    // Delete the associated image file if it exists
     if (blog.image) {
       const imagePath = path.join(__dirname, "..", "uploads", blog.image.replace("uploads/", ""));
       fs.unlink(imagePath, (err) => {
@@ -106,10 +108,8 @@ const deleteBlog = async (req, res) => {
       });
     }
 
-    // Delete the blog from the database
     await Blog.findByIdAndDelete(req.params.id);
 
-    // Optionally, delete comments associated with the blog (if needed)
     await Comment.deleteMany({ blog: req.params.id });
 
     res.status(200).json({ message: "Blog deleted successfully" });
@@ -126,5 +126,5 @@ module.exports = {
   likeBlog, 
   getCommentsForBlog, 
   addCommentToBlog, 
-  deleteBlog // Export deleteBlog
+  deleteBlog 
 };

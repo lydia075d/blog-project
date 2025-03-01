@@ -9,7 +9,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save images in the "uploads" folder
+    cb(null, "uploads/"); 
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
@@ -18,17 +18,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Routes
 router.post("/", authenticateUser, upload.single("image"), createBlog);
 router.get("/", getBlogs);
 router.get("/:id", getBlogById);
 router.post("/:id/like", authenticateUser, likeBlog);
 
-// Delete Blog Route
 router.delete("/:id", authenticateUser, deleteBlog);
 
-// Comment Routes
-router.get("/:id/comments", getCommentsForBlog); // Get comments for a blog
-router.post("/:id/comments", authenticateUser, addCommentToBlog); // Add comment to a blog
+router.get("/:id/comments", getCommentsForBlog); 
+router.post("/:id/comments", authenticateUser, addCommentToBlog); 
 
 module.exports = router;

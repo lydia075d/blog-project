@@ -42,18 +42,15 @@ const CreateBlogPage = ({ addBlog }) => {
 
     if (res.ok) {
       const newBlog = await res.json();
-      console.log("New Blog Created:", newBlog); // Log the new blog
-      addBlog(newBlog);  // Should now work properly
+      console.log("New Blog Created:", newBlog);
+      addBlog(newBlog); 
       alert("Blog created successfully!");
-      navigate("/home");
+      navigate("/home"); 
     } else {
       const errorData = await res.json();
       alert(`Error: ${errorData.message || "Failed to create blog"}`);
     }
   };
-  console.log('addBlog function in HomePage:', addBlog);  // Log it here
-
-  console.log("addBlog:", addBlog);  // Move it here to check when the component renders
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-8">

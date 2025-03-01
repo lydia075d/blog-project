@@ -22,7 +22,6 @@ const updateUserProfile = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Validate profileImage and bio
     if (profileImage) {
       user.profileImage = profileImage;
     }

@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom"; 
 import ProfileCard from "../components/ProfileCard";
 import ChatBox from "../components/ChatBox";
 import SharedProfile from "../components/SharedProfile";
 
 const ProfilePage = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // Use navigate for redirection
+  const navigate = useNavigate(); 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("Token:", token); // Debugging: Check token in console
+    console.log("Token:", token); 
 
     if (!token) {
-      navigate("/login"); // Use navigate instead of window.location
+      navigate("/login"); 
       return;
     }
 
     const apiUrl = `${import.meta.env.VITE_REACT_APP_API_URL}/profile/${id}`;
-    console.log("Fetching Profile from:", apiUrl); // ✅ Log URL before fetching
+    console.log("Fetching Profile from:", apiUrl); 
   
     fetch(`${import.meta.env.VITE_REACT_APP_API_URL}/api/profile/${id}`, {
       headers: {
@@ -31,12 +31,12 @@ const ProfilePage = () => {
         return res.json();
       })
       .then((data) => {
-        console.log("Profile Data:", data); // Debugging: Check API response
+        console.log("Profile Data:", data);
         setUser(data);
       })
       .catch((error) => {
         console.error("Error fetching profile:", error);
-        navigate("/login"); // Redirect to login if error
+        navigate("/login"); 
       });
   }, [id, navigate]);
 
@@ -45,16 +45,15 @@ const ProfilePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="w-full max-w-md">
-        {/* Profile Card */}
+      
         <ProfileCard user={user} />
 
-        {/* Shared Profile */}
+     
         <div className="mt-6">
           <SharedProfile user={user} />
         </div>
       </div>
 
-      {/* ChatBox Component */}
       <div className="mt-6 w-full max-w-md">
         <ChatBox currentUser={user.username} targetUser="admin" />
       </div>

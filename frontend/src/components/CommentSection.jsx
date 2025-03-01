@@ -25,7 +25,7 @@ const CommentSection = ({ blogId }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add auth header
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify({ content: comment }),
       });

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const nodemailer = require("nodemailer");
 
-let storedOTPs = {}; // Store OTPs temporarily
+let storedOTPs = {}; 
 
 const registerUser = async (req, res) => {
   const { username, password, email, dob } = req.body;
@@ -21,7 +21,7 @@ const registerUser = async (req, res) => {
     await newUser.save();
 
     const otp = Math.floor(100000 + Math.random() * 900000);
-    storedOTPs[email] = otp; // Store OTP
+    storedOTPs[email] = otp; 
 
     const transporter = nodemailer.createTransport({
       service: "gmail",

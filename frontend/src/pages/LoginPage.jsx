@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false); // For handling the loading state
+  const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,12 +14,12 @@ const LoginPage = () => {
     }
   }, [navigate]);
 
-  const API_URL = "http://localhost:5001/api";  // Hardcoded API URL for debugging
+  const API_URL = "http://localhost:5001/api";  
 console.log("Using API URL:", API_URL);
 
 const handleLogin = async (e) => {
   e.preventDefault();
-  console.log("Using API URL:", API_URL);  // Debugging step
+  console.log("Using API URL:", API_URL); 
 
   try {
     console.log("Using API URL:", import.meta.env.VITE_REACT_APP_API_URL);
@@ -72,9 +72,9 @@ const handleLogin = async (e) => {
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition duration-300"
-            disabled={loading} // Disable button while loading
+            disabled={loading} 
           >
-            {loading ? "Logging In..." : "Login"} {/* Loading text */}
+            {loading ? "Logging In..." : "Login"} 
           </button>
         </form>
         <p className="mt-4 text-center text-gray-600">

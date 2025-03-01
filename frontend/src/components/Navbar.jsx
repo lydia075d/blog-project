@@ -10,13 +10,13 @@ const Navbar = () => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token); 
-        setUserId(decodedToken.id); // ✅ Store the userId in state
+        setUserId(decodedToken.id);
       } catch (error) {
         console.error("Invalid token:", error);
-        localStorage.removeItem("token"); // ✅ Clear invalid token
+        localStorage.removeItem("token"); 
       }
     }
-  }, []); // ✅ Runs only on component mount
+  }, []); 
 
   const handleLogout = () => {
     localStorage.removeItem("token");

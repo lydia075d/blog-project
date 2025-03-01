@@ -6,7 +6,7 @@ const blogSchema = new mongoose.Schema({
   image: { type: String }, 
   video: { type: String },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  likes: { type: Number, default: 0 },
+  likes: { type: [mongoose.Schema.Types.ObjectId],ref: "User", default: [] },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   createdAt: { type: Date, default: Date.now },
 });

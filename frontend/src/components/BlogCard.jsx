@@ -6,8 +6,8 @@ const BlogCard = ({ blog }) => {
     <div className="border p-4 m-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
       {blog.image && (
         <img
-          src={`${import.meta.env.VITE_REACT_APP_API_URL}${blog.image}`}
-          alt="Blog Cover"
+        src={`${import.meta.env.VITE_REACT_APP_IMAGE_URL}${blog.image.replace(/^\/+/, '')}`}
+        alt="Blog Cover"
           className="w-full h-48 object-cover rounded-md"
         />
       )}
@@ -19,3 +19,5 @@ const BlogCard = ({ blog }) => {
     </div>
   );
 };
+
+export default BlogCard;
